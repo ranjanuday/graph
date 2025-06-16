@@ -1,0 +1,41 @@
+class Solution {
+public:
+//BFS inherently finds the shortest path in an unweighted grid or graph, so there's no need to use min() or track the smallest distance manually.
+    int nearestExit(vector<vector<char>>& maze, vector<int>& entrance) {
+        int r = maze.size();
+        int c = maze[0].size();
+        vector<vector<int>> vis(r, vector<int>(c, 0));
+        queue<pair<int, int>> q;
+        q.push({entrance[0], entrance[1]});
+        vis[entrance[0]][entrance[1]] = 1;
+
+        int dx[] = {-1, 0, 1, 0}; 
+        int dy[] = {0, 1, 0, -1}; 
+        int steps = 0;
+
+        while (!q.empty()) {
+            int sz = q.size();
+            steps++;
+we get x and y now we have to deep in the  x and y jb tak woh 0 ya phir row ya col ka equal na ho jaye
+            while (sz--) {
+                int x = q.front().first;
+                int y = q.front().second;
+                q.pop();
+
+                for (int i = 0; i < 4; i++) {
+                    int nx = x + dx[i];
+                    int ny = y + dy[i];
+
+                    if (nx >= 0 && ny >= 0 && nx < r && ny < c && maze[nx][ny] == '.' && !vis[nx][ny]) {
+                        if (nx == 0 || ny == 0 || nx == r - 1 || ny == c - 1)
+                            return steps;
+                        vis[nx][ny] = 1;
+                        q.push({nx, ny});
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+};
